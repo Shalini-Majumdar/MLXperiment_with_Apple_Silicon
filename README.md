@@ -1,1 +1,1 @@
-# Apple_Silicon_MLX_Comparison
+# MLXperiment_with_Apple_Silicon
