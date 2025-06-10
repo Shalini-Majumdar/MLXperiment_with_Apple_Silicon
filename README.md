@@ -38,6 +38,9 @@ Compare training and inference metrics between:
 
 > While PyTorch outperforms in raw speed, MLX shows **ultra-low memory usage** and **strong accuracy**, making it ideal for memory-constrained environments.
 
+## 🔄 Approach 2: Mistral-7B Model Benchmark 
+
+
 
 
 
