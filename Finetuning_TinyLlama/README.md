@@ -82,7 +82,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🔍 Key Similarities & Differences
+## Key Similarities & Differences
 
 | Aspect           | PyTorch                           | MLX                                    |
 |------------------|-----------------------------------|-----------------------------------------|
