@@ -38,51 +38,59 @@ pip install -r requirements.txt
 
 ## Scripts Overview
 
-- **finetune.py**: Fine-tunes TinyLlama using PyTorch (CPU-only, LoRA, minimal memory usage).
-- **finetune_mlx.py**: Fine-tunes TinyLlama using MLX (Apple Silicon GPU, LoRA, mixed precision, optimized for memory and speed).
-- **compare_implementations.py**: Compares the results (training time, memory, loss) between PyTorch and MLX runs.
-- **test_conversion_mlx.py**: (Optional) Tests model conversion for MLX.
+- **`finetune.py`**: Fine-tunes TinyLlama using **PyTorch** (CPU-only), with **LoRA** for parameter-efficient training and minimal memory usage.
+- **`finetune_mlx.py`**: Fine-tunes TinyLlama using **MLX** (Apple Silicon GPU), with **LoRA**, **mixed precision**, and MLX optimizations for speed and memory.
+- **`compare_implementations.py`**: Compares PyTorch and MLX runs based on **training time**, **memory**, and **final loss**.
+- **`test_conversion_mlx.py`** (optional): Validates model conversion from PyTorch to MLX format.
 
 ---
 
-## Model Conversion and Fine-Tuning Details
+## Model Conversion & Fine-Tuning Process
 
-### How `finetune_mlx.py` Converts the PyTorch Model to MLX-Compatible
+### `finetune_mlx.py`: Converting PyTorch Model to MLX
 
-- **Model Download:** The script uses Hugging Face Transformers to download the base TinyLlama model in PyTorch format.
-- **Conversion Function:** If the MLX model files do not exist, `convert_to_mlx()` is called. This function:
-    - Loads the PyTorch model and extracts its weights.
-    - Converts weights from PyTorch tensors to NumPy arrays (or MLX arrays).
-    - Saves the converted weights and configuration in the `mlx_model/` directory as `.npz` and `.json` files.
-- **MLX Model Instantiation:** The script instantiates a custom MLX model class (e.g., `TinyLlamaLoRA`) that mimics the original architecture using MLX layers and loads the converted weights.
-- **LoRA Integration:** Both PyTorch and MLX versions use LoRA (Low-Rank Adaptation) for parameter-efficient fine-tuning. In MLX, a custom `LoRALayer` is defined and injected into the model architecture.
+1. **Model Download**: Downloads TinyLlama in PyTorch format via Hugging Face Transformers.
+2. **Conversion (`convert_to_mlx()`)**:
+   - Loads PyTorch weights.
+   - Converts tensors to NumPy/MLX arrays.
+   - Saves converted weights/config to `mlx_model/` (`.npz`, `.json`).
+3. **Model Loading**:
+   - Instantiates a custom MLX model (e.g., `TinyLlamaLoRA`).
+   - Loads MLX-compatible weights.
+4. **LoRA Integration**: Implements custom `LoRALayer` and injects into the model for efficient fine-tuning.
 
-### How Fine-Tuning Works in Both Versions
+---
 
-#### PyTorch Version (`finetune.py`)
-1. **Environment Setup:** Forces CPU usage for reproducibility.
-2. **Model & Tokenizer Loading:** Loads the base model and tokenizer from Hugging Face, applies LoRA adapters.
-3. **Dataset Preparation:** Loads and tokenizes a subset of the Alpaca dataset.
-4. **Training Loop:** Uses Hugging Face’s `Trainer` class for training, running for a small number of epochs and batches.
-5. **Saving Results:** Saves the fine-tuned model and metrics to disk.
+### Fine-Tuning Workflow (Both Versions)
 
-#### MLX Version (`finetune_mlx.py`)
-1. **Environment Setup:** Forces GPU usage on Apple Silicon via MLX, optionally enables mixed precision.
-2. **Model Conversion (if needed):** Converts the PyTorch model to MLX format as described above.
-3. **Model & Tokenizer Loading:** Loads the MLX-compatible model and tokenizer, integrates LoRA layers.
-4. **Dataset Preparation:** Loads and tokenizes the same subset of the Alpaca dataset, converts data to MLX arrays.
-5. **Training Loop:** Implements a manual training loop using MLX’s optimizer and autograd. For each batch:
-    - Runs a forward pass through the model.
-    - Computes the loss (cross-entropy).
-    - Computes gradients and updates model parameters.
-6. **Saving Results:** Saves the fine-tuned MLX model and metrics to disk.
+#### PyTorch (`finetune.py`)
 
-### Key Differences and Similarities
-- **Model Architecture:** Both scripts use the same model architecture and LoRA adaptation, but implemented in their respective frameworks.
-- **Conversion:** The MLX script must convert weights and architecture from PyTorch to MLX, while PyTorch uses the model directly.
-- **Training Loop:** PyTorch leverages the high-level `Trainer` API, while MLX uses a lower-level, manual training loop.
-- **Device Usage:** PyTorch is forced to CPU for benchmarking, while MLX uses the Apple GPU.
-- **Metrics:** Both scripts record training time, memory usage, and final loss for fair comparison.
+- Forces **CPU usage** for consistent benchmarking.
+- Loads model/tokenizer from Hugging Face; applies **LoRA adapters**.
+- Loads and tokenizes a subset of the **Alpaca dataset**.
+- Uses Hugging Face’s **`Trainer` API** for fine-tuning.
+- Saves the trained model and **metrics** (`pytorch_metrics.json`).
+
+#### MLX (`finetune_mlx.py`)
+
+- Utilizes **MLX on Apple Silicon GPU**, with optional **mixed precision**.
+- Converts model if needed, then loads MLX-compatible version.
+- Loads same Alpaca subset, tokenizes, and converts to **MLX arrays**.
+- Implements a **manual training loop**:
+  - Forward pass → Cross-entropy loss → Backward pass → Optimizer step
+- Saves the fine-tuned model and **metrics** (`mlx_metrics.json`).
+
+---
+
+## 🔍 Key Similarities & Differences
+
+| Aspect           | PyTorch                           | MLX                                    |
+|------------------|-----------------------------------|-----------------------------------------|
+| Model Format      | Hugging Face Transformers         | Converted from PyTorch                  |
+| LoRA              | Hugging Face PEFT                | Custom `LoRALayer` injected manually   |
+| Training Loop     | High-level (`Trainer` API)       | Manual loop using MLX autograd         |
+| Device Used       | CPU                              | Apple GPU via MLX                      |
+| Metrics Tracked   | Time, Memory, Loss               | Time, Memory, Loss                     |
 
 ---
 
