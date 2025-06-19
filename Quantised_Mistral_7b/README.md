@@ -58,8 +58,6 @@ The aim of this project is to **benchmark, compare, and analyze quantized Mistra
 
 ---
 
-## Logic Behind run_mlx_mistral.py and llama_cpp Version
-
 ### run_mlx_mistral.py
 - Loads the quantized MLX model and tokenizer from the `models` directory using MLX's `load` function.
 - Defines a prompt (e.g., "Who invented the light bulb?").
