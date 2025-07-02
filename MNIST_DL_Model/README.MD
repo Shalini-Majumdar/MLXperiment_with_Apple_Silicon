@@ -1,18 +1,15 @@
 # MNIST Benchmarking: PyTorch vs MLX (Single‑node & Distributed)
 
-<h1>🧭 Project Overview</h1>
+<h1>Project Overview</h1>
 This project compares two simple MNIST classifiers (PyTorch and MLX) on Apple Silicon (MacBook & Mac Mini) to evaluate performance differences in:
-
 1. Model Implementation
-
 2. Training & Evaluation (Single‑node)
-
 3. Distributed Training (PyTorch)
 
 Everything’s tracked in detail via metrics: accuracy, inference time, throughput, memory usage, CPU/GPU utilization.
 
 
-<h1>📁 Repository Structure </h1>
+<h1>Repository Structure </h1>
 
      MLXProj/
     ├── training/
@@ -30,7 +27,7 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
     └── README.md
 
 
-<h1>🛠️ Environment Setup</h1>
+<h1>Environment Setup</h1>
 
 * OS: macOS (MacBookPro (M3 Pro Chip), & 2 Mac Mini's (M4 Pro chips))
 
@@ -41,7 +38,7 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
 * Metal/Developer Tools installed (xcode-select)
 
 
-<h1> 🔄 Single‑Node Experiments </h1>
+<h1> Single‑Node Experiments </h1>
 
 
 <h1> 1. PyTorch (Non‑MLX) </h1>
@@ -56,7 +53,7 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
 
 * CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
 
-✅ Trained & evaluated on MacBook & Mac Mini individually
+Trained & evaluated on MacBook & Mac Mini individually
 
 <h1> 2. MLX Model (Single‑Node) </h1> 
 
@@ -73,9 +70,9 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
      * GPU (Metal) used to 100% while running MLX
 
 
-# 🧵 Multi‑Node (Distributed) Training
+# Multi‑Node (Distributed) Training
 
-# ✅ PyTorch Distributed (DDP)
+# PyTorch Distributed (DDP)
 
  * train_pytorch_ddp.py uses torch.distributed + DistributedSampler
 
@@ -90,7 +87,7 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
     * Final accuracy ~96–97% (expected consistency)
 
 
-#  📊 Performance Summary (So Far)
+# Performance Summary (So Far)
 
 | Setup                   | Accuracy | Inference Time | Throughput   | Peak Memory (CPU) | Hardware & Notes                                |
 |------------------------|----------|----------------|--------------|-------------------|--------------------------------------------------|
@@ -100,19 +97,19 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
 | MLX (Mac Mini)         | ~97.5%   | 6–7 s          | ~1.5 k sps   | ~0.1–7 MB         | Same GPU behaviour                               |
 | PyTorch DDP (Mac Minis)| ~96–97%  | ~0.07 s (node) | ~69 k sps    | ~308 MB           | Distributed, per-node metrics available          |
 
-# 📌 What’s Next
+# What’s Next
 * Implement MLX distributed training using mlx.distributed + hosts.json + MPI
 * Run on Mac Mini cluster, monitor similar metrics (time, throughput, memory, CPU/GPU)
 * Compare distributed MLX vs. distributed PyTorch vs. single-node results
 * Finalize benchmarking report with objective performance insights
 
-# ✅ Conclusion
+# Conclusion
 * PyTorch (non‑MLX): Fastest inference, simple CPU-only training
 * MLX: GPU-utilized Apple-native ML pipeline with lower throughput
 * Distributed PyTorch: Achieved multi-node scaling, keeping loss/time consistent
 * Distributed MLX: In progress—next milestone to evaluate scalability and performance trade-offs
 
-# 🧭 How to Reproduce
+# How to Reproduce
 * Clone this repo
 * Set up env_mlx, install dependencies (ensure Metal/Xcode tools)
 * Run single-node training and evaluation for PyTorch and MLX
