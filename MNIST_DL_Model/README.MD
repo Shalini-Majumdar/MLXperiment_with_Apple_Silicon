@@ -90,6 +90,41 @@ CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
     * Final accuracy ~96–97% (expected consistency)
 
 
+#📊 Performance Summary (So Far)
+
+| Setup                   | Accuracy | Inference Time | Throughput   | Peak Memory (CPU) | Hardware & Notes                                |
+|------------------------|----------|----------------|--------------|-------------------|--------------------------------------------------|
+| PyTorch (MacBook)      | ~97.6%   | 0.20 s         | ~50 k sps    | ~300 MB           | CPU only                                         |
+| PyTorch (Mac Mini)     | ~97.5%   | 0.14 s         | ~68 k sps    | ~311 MB           | CPU only                                         |
+| MLX (MacBook)          | ~97.6%   | 7–8 s          | ~1.2 k sps   | ~0.3–120 MB       | GPU peaks 100% during MLX execution              |
+| MLX (Mac Mini)         | ~97.5%   | 6–7 s          | ~1.5 k sps   | ~0.1–7 MB         | Same GPU behaviour                               |
+| PyTorch DDP (Mac Minis)| ~96–97%  | ~0.07 s (node) | ~69 k sps    | ~308 MB           | Distributed, per-node metrics available          |
+
+# 📌 What’s Next
+    * Implement MLX distributed training using mlx.distributed + hosts.json + MPI
+    * Run on Mac Mini cluster, monitor similar metrics (time, throughput, memory, CPU/GPU)
+    * Compare distributed MLX vs. distributed PyTorch vs. single-node results
+    * Finalize benchmarking report with objective performance insights
+
+# ✅ Conclusion
+     * PyTorch (non‑MLX): Fastest inference, simple CPU-only training
+     * MLX: GPU-utilized Apple-native ML pipeline with lower throughput
+     * Distributed PyTorch: Achieved multi-node scaling, keeping loss/time consistent
+     * Distributed MLX: In progress—next milestone to evaluate scalability and performance trade-offs
+
+# 🧭 How to Reproduce
+     * Clone this repo
+     * Set up env_mlx, install dependencies (ensure Metal/Xcode tools)
+     * Run single-node training and evaluation for PyTorch and MLX
+     * Configure hosts.json and node environments (ulimit, networking)
+     * Launch PyTorch DDP training
+     * Implement and launch MLX distributed version
+     * Analyze results in results/
+
+
+
+
+
 
 
 
