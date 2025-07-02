@@ -32,13 +32,13 @@ Everything’s tracked in detail via metrics: accuracy, inference time, throughp
 
 <h1>🛠️ Environment Setup</h1>
 
-OS: macOS (MacBookPro (M3 Pro Chip), & 2 Mac Mini's (M4 Pro chips))
+* OS: macOS (MacBookPro (M3 Pro Chip), & 2 Mac Mini's (M4 Pro chips))
 
-Python: 3.13 virtual environment env_mlx
+* Python: 3.13 virtual environment env_mlx
 
-Dependencies: torch, torchvision, mlx, psutil, memory_profiler
+* Dependencies: torch, torchvision, mlx, psutil, memory_profiler
 
-Metal/Developer Tools installed (xcode-select)
+* Metal/Developer Tools installed (xcode-select)
 
 
 <h1> 🔄 Single‑Node Experiments </h1>
@@ -46,15 +46,15 @@ Metal/Developer Tools installed (xcode-select)
 
 <h1> 1. PyTorch (Non‑MLX) </h1>
 
-train_pytorch.py trains a simple 2‑layer MLP on MNIST
+* train_pytorch.py trains a simple 2‑layer MLP on MNIST
 
-eval_benchmark.py logs:
+* eval_benchmark.py logs:
 
-Accuracy (~97.5–97.6%)
+* Accuracy (~97.5–97.6%)
 
-Inference time (~0.14–0.20 s, ~50‑70k samples/sec)
+* Inference time (~0.14–0.20 s, ~50‑70k samples/sec)
 
-CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
+* CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
 
 ✅ Trained & evaluated on MacBook & Mac Mini individually
 
@@ -90,7 +90,7 @@ CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
     * Final accuracy ~96–97% (expected consistency)
 
 
-#📊 Performance Summary (So Far)
+#  📊 Performance Summary (So Far)
 
 | Setup                   | Accuracy | Inference Time | Throughput   | Peak Memory (CPU) | Hardware & Notes                                |
 |------------------------|----------|----------------|--------------|-------------------|--------------------------------------------------|
@@ -101,25 +101,25 @@ CPU memory (~300 MB), CPU usage (~2–4%), GPU for MLX only
 | PyTorch DDP (Mac Minis)| ~96–97%  | ~0.07 s (node) | ~69 k sps    | ~308 MB           | Distributed, per-node metrics available          |
 
 # 📌 What’s Next
-    * Implement MLX distributed training using mlx.distributed + hosts.json + MPI
-    * Run on Mac Mini cluster, monitor similar metrics (time, throughput, memory, CPU/GPU)
-    * Compare distributed MLX vs. distributed PyTorch vs. single-node results
-    * Finalize benchmarking report with objective performance insights
+* Implement MLX distributed training using mlx.distributed + hosts.json + MPI
+* Run on Mac Mini cluster, monitor similar metrics (time, throughput, memory, CPU/GPU)
+* Compare distributed MLX vs. distributed PyTorch vs. single-node results
+* Finalize benchmarking report with objective performance insights
 
 # ✅ Conclusion
-     * PyTorch (non‑MLX): Fastest inference, simple CPU-only training
-     * MLX: GPU-utilized Apple-native ML pipeline with lower throughput
-     * Distributed PyTorch: Achieved multi-node scaling, keeping loss/time consistent
-     * Distributed MLX: In progress—next milestone to evaluate scalability and performance trade-offs
+* PyTorch (non‑MLX): Fastest inference, simple CPU-only training
+* MLX: GPU-utilized Apple-native ML pipeline with lower throughput
+* Distributed PyTorch: Achieved multi-node scaling, keeping loss/time consistent
+* Distributed MLX: In progress—next milestone to evaluate scalability and performance trade-offs
 
 # 🧭 How to Reproduce
-     * Clone this repo
-     * Set up env_mlx, install dependencies (ensure Metal/Xcode tools)
-     * Run single-node training and evaluation for PyTorch and MLX
-     * Configure hosts.json and node environments (ulimit, networking)
-     * Launch PyTorch DDP training
-     * Implement and launch MLX distributed version
-     * Analyze results in results/
+* Clone this repo
+* Set up env_mlx, install dependencies (ensure Metal/Xcode tools)
+* Run single-node training and evaluation for PyTorch and MLX
+* Configure hosts.json and node environments (ulimit, networking)
+* Launch PyTorch DDP training
+* Implement and launch MLX distributed version
+* Analyze results in results/
 
 
 
