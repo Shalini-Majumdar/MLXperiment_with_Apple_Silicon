@@ -96,7 +96,7 @@ pip install -r requirements.txt
 
 ## Results: PyTorch vs MLX
 
-After running both fine-tuning scripts and the comparison, the following results were obtained:
+After running both fine-tuning scripts and the comparison on a Mac Mini device, the following results were obtained:
 
 ```
 +-------------------+-----------+---------+
